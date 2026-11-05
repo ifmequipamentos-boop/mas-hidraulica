@@ -64,7 +64,21 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:8px 20px 28px
   </section>
 
 <section class="card"><h2>Dados do projeto</h2><div class="grid"><div><label>Projeto</label><input id="project" placeholder="Nome do projeto"></div><div><label>Cliente</label><input id="client" placeholder="Cliente"></div><div><label>Contato</label><input id="contact" placeholder="Telefone / e-mail"></div><div><label>Desnível estático (m)</label><input id="staticHead" inputmode="decimal" value="0"></div></div><button class="secondary" id="saveProject" style="width:100%;margin-top:12px">Salvar dados do projeto</button></section>
-<section class="card"><h2>Materiais e acessórios</h2><p class="note">Valores K e rugosidades indicativos para estudo preliminar. Confirme com o fabricante, acabamento e geometria real. A válvula de pé normalmente fica na sucção.</p><div class="grid"><div><label>Material da tubulação</label><select id="material"><option value="0.045">Aço comercial</option><option value="0.015">Aço inox 304 / 316 (tubo comercial, valor indicativo)</option><option value="0.0015">Aço inox sanitário polido (valor indicativo)</option><option value="0.0015">PVC / plástico liso</option><option value="0.0015">Cobre liso</option><option value="0.15">Aço galvanizado</option><option value="0.26">Ferro fundido</option><option value="custom">Personalizado</option></select></div><div><label>Curvas 90° (K≈0,9)</label><input id="elbow" type="number" min="0" value="0"></div><div><label>Curvas 45° (K≈0,4)</label><input id="elbow45" type="number" min="0" value="0"></div><div><label>Válvulas de pé com crivo (K≈5)</label><input id="footValve" type="number" min="0" value="0"></div><div><label>Válvulas esfera abertas (K≈0,05)</label><input id="ballValve" type="number" min="0" value="0"></div><div><label>Filtros / crivos (K≈2)</label><input id="strainer" type="number" min="0" value="0"></div><div><label>Tês em passagem (K≈0,6)</label><input id="tee" type="number" min="0" value="0"></div><div><label>Válvulas gaveta abertas (K≈0,15)</label><input id="gate" type="number" min="0" value="0"></div><div><label>Válvulas globo abertas (K≈10)</label><input id="globe" type="number" min="0" value="0"></div><div><label>Válvulas de retenção (K≈2)</label><input id="checkValve" type="number" min="0" value="0"></div></div><p class="note" id="accessoryK"></p><button class="secondary" id="applyAccessories" style="width:100%">Aplicar K dos acessórios ao cálculo</button></section>
+<section class="card"><h2>Materiais e acessórios</h2>
+<p class="note">Adicione acessórios individualmente. Coeficientes K indicativos: confirme com o fabricante e a geometria real.</p>
+<div class="field"><label for="material">Material da tubulação</label><select id="material"><option value="0.045">Aço comercial</option><option value="0.015">Aço inox 304 / 316 (tubo comercial, valor indicativo)</option><option value="0.0015">Aço inox sanitário polido (valor indicativo)</option><option value="0.0015">PVC / plástico liso</option><option value="0.0015">Cobre liso</option><option value="0.15">Aço galvanizado</option><option value="0.26">Ferro fundido</option><option value="custom">Personalizado</option></select></div>
+<div class="grid" style="margin-top:14px">
+<div class="field"><label for="accType">Selecionar acessório</label><select id="accType"></select></div>
+<div class="field"><label for="accQty">Quantidade</label><input id="accQty" type="number" min="1" step="1" value="1"></div>
+<div class="field"><label for="accDiameter">Diâmetro nominal (opcional)</label><input id="accDiameter" placeholder="Ex.: DN50"></div>
+<div class="field"><label for="accLocation">Localização</label><select id="accLocation"><option value="Recalque">Recalque</option><option value="Sucção">Sucção</option><option value="Outro">Outro</option></select></div>
+</div>
+<button class="primary" id="addAccessory">+ Adicionar acessório</button>
+<div id="accessoryList" style="margin-top:14px"></div>
+<p class="note" id="accessoryK" aria-live="polite"></p>
+<button class="secondary" id="applyAccessories" style="width:100%">Aplicar K dos acessórios ao cálculo</button>
+<p class="note">O valor K aplicado substitui o valor anterior do campo hidráulico. Após alterações, aplique novamente e recalcule.</p>
+</section>
 <section class="card"><h2>Cadastro e análise de bombas</h2><div class="grid"><div><label>Tipo</label><select id="pumpType"><option>Centrífuga horizontal</option><option>Centrífuga vertical</option><option>Deslocamento positivo</option><option>Outro</option></select></div><div><label>Fabricante</label><input id="manufacturer" value="Outro"></div><div><label>Modelo</label><input id="pumpModel" value="equipe"></div><div><label>Fluido</label><input id="fluid" value="Água"></div><div><label>Vazão nominal (m³/h)</label><input id="pumpFlow" inputmode="decimal" value="20"></div><div><label>Altura nominal (mca)</label><input id="pumpHead" inputmode="decimal" value="35"></div><div><label>Rotação (rpm)</label><input id="rpm" inputmode="decimal" value="1750"></div><div><label>Potência no eixo (kW), opcional</label><input id="power" inputmode="decimal" placeholder="A definir"></div><div><label>Diâmetro do rotor (mm), opcional</label><input id="impeller" inputmode="decimal" placeholder="A definir"></div></div><button class="primary" id="analyzePump">Analisar bomba</button><div class="error" id="pumpError"></div><div class="note" id="pumpAnalysis" style="margin-top:12px"></div><button class="secondary" id="savePump" style="width:100%;margin-top:10px">Salvar bomba no catálogo local</button><div class="note" id="pumpCatalog"></div></section>
 <section class="card"><h2>Relatório técnico</h2><p class="note">Relatório técnico formatado para A4 com identificação do projeto, parâmetros, acessórios, cálculos e análise da bomba. No iPhone, use Imprimir e depois Salvar em Arquivos.</p><button class="primary" id="report">Gerar relatório / salvar em PDF</button></section>
   <section class="card">
@@ -78,7 +92,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:8px 20px 28px
     <p class="note"><b>Atenção:</b> a faixa de transição do escoamento (Re entre 2.300 e 4.000) é aproximada. Confirme propriedades do fluido, diâmetro real e dados de fabricantes antes de usar o resultado em um projeto executivo.</p>
   </section>
 </main>
-<footer>MAS Engenharia Hidráulica · Protótipo 2.0 · Uso interno</footer>
+<footer>MAS Engenharia Hidráulica · Protótipo 2.1 · Uso interno</footer>
 <script>
 const $ = id => document.getElementById(id);
 const num = id => Number($(id).value.trim().replace(',','.'));
@@ -131,9 +145,49 @@ function restore(fields,values){fields.forEach(k=>{if(values[k]!==undefined)$(k)
 restore(projectFields,load('mas-v2-project',{}));
 $('saveProject').onclick=()=>{store('mas-v2-project',collect(projectFields));alert('Projeto salvo neste aparelho.')};
 $('material').onchange=()=>{if(getVal('material')!=='custom')$('e').value=getVal('material')};
-const accessories={elbow:.9,elbow45:.4,footValve:5,ballValve:.05,strainer:2,tee:.6,gate:.15,globe:10,checkValve:2};
-function accessoryTotal(){let k=0;for(const [id,coef] of Object.entries(accessories)){const n=val(id);if(!Number.isInteger(n)||n<0)throw Error('Informe quantidades inteiras não negativas.');k+=n*coef}return k}
-$('applyAccessories').onclick=()=>{try{const k=accessoryTotal();$('k').value=k.toFixed(3);$('accessoryK').textContent='K total estimado dos acessórios: '+fmt(k)+' (substitui o K anterior).';}catch(e){alert(e.message)}};
+const accessoryCatalog=[
+ ['elbow','Curva 90°',.9],['elbow45','Curva 45°',.4],['footValve','Válvula de pé com crivo',5],
+ ['ballValve','Válvula esfera aberta',.05],['strainer','Filtro / crivo',2],['tee','Tê em passagem',.6],
+ ['gate','Válvula gaveta aberta',.15],['globe','Válvula globo aberta',10],['checkValve','Válvula de retenção',2],
+ ['teeBranch','Tê em derivação',1.8],['reducer','Redução concêntrica',.3],
+ ['butterfly','Válvula borboleta aberta',.3],['angleValve','Válvula angular',5],
+ ['union','União / conexão',.08],['entrance','Entrada de tubulação',.5],['exit','Saída de tubulação',1]
+];
+let accessoryItems=load('mas-v5-accessories',[]);
+if(!Array.isArray(accessoryItems))accessoryItems=[];
+const accSelect=$('accType');
+accessoryCatalog.forEach(([id,name,k])=>{const o=document.createElement('option');o.value=id;o.textContent=name+' (K≈'+fmt(k)+')';accSelect.appendChild(o)});
+const accessoryName=id=>accessoryCatalog.find(x=>x[0]===id);
+const escapeText=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function accessoryTotal(){return accessoryItems.reduce((sum,x)=>sum+x.qty*x.k,0)}
+function renderAccessories(){
+ const target=$('accessoryList');target.replaceChildren();
+ if(!accessoryItems.length){const p=document.createElement('p');p.className='note';p.textContent='Nenhum acessório adicionado.';target.appendChild(p)}
+ accessoryItems.forEach((x,i)=>{
+  const row=document.createElement('div');row.style.cssText='border:1px solid #dce4ec;border-radius:10px;padding:10px;margin-bottom:8px;display:flex;align-items:center;gap:10px;justify-content:space-between';
+  const info=document.createElement('div');info.style.flex='1';
+  const strong=document.createElement('strong');strong.textContent=x.name;info.appendChild(strong);
+  const detail=document.createElement('div');detail.className='note';detail.textContent='Qtd: '+x.qty+' · '+(x.diameter||'DN não informado')+' · '+x.location+' · K: '+fmt(x.qty*x.k);info.appendChild(detail);
+  const del=document.createElement('button');del.className='secondary';del.textContent='Excluir';del.style.padding='9px';del.onclick=()=>{accessoryItems.splice(i,1);persistAccessories()};
+  row.append(info,del);target.appendChild(row)
+ });
+ $('accessoryK').textContent='K total estimado dos acessórios: '+fmt(accessoryTotal())+' ('+accessoryItems.reduce((n,x)=>n+x.qty,0)+' unidades).';
+}
+function persistAccessories(){store('mas-v5-accessories',accessoryItems);renderAccessories()}
+$('addAccessory').onclick=()=>{
+ const entry=accessoryName(accSelect.value),qty=Number($('accQty').value),diameter=$('accDiameter').value.trim();
+ if(!entry||!Number.isSafeInteger(qty)||qty<1||qty>100000){alert('Informe uma quantidade inteira entre 1 e 100.000.');return}
+ accessoryItems.push({type:entry[0],name:entry[1],k:entry[2],qty,diameter,location:$('accLocation').value});
+ persistAccessories();$('accQty').value='1';
+};
+$('applyAccessories').onclick=()=>{
+ const k=accessoryTotal();$('k').value=k.toFixed(4);
+ $('accessoryK').textContent='K aplicado ao cálculo: '+fmt(k)+'. Recalcule para atualizar os resultados.';
+};
+const savedMaterial=load('mas-v5-material',null);
+if(savedMaterial!==null)$('material').value=savedMaterial;
+$('material').addEventListener('change',()=>store('mas-v5-material',$('material').value));
+renderAccessories();
 let pumpResult=null;
 function analyzePump(){const q=val('pumpFlow'),h=val('pumpHead'),n=val('rpm'),p=val('power'),rho=val('rho'),staticH=val('staticHead');const hasP=getVal('power')!=='';
 $('pumpError').style.display='none';if(![q,h,n,rho,staticH].every(Number.isFinite)||q<=0||h<=0||n<=0||rho<=0||staticH<0||(hasP&&(!Number.isFinite(p)||p<=0))){$('pumpError').textContent='Confira vazão, altura, rotação, massa específica, desnível e potência.';$('pumpError').style.display='block';pumpResult=null;return}
@@ -151,8 +205,7 @@ $('report').onclick=()=>{
   const section=(name,rows)=>'<h2>'+esc(name)+'</h2><table>'+rows.map(x=>tr(...x)).join('')+'</table>';
   const project=[['Projeto',proj.project||'Não informado'],['Cliente',proj.client||'Não informado'],['Contato',proj.contact||'Não informado'],['Desnível estático',proj.staticHead+' m']];
   const input=[['Vazão',getVal('q')+' m³/h'],['Comprimento reto',getVal('l')+' m'],['Diâmetro interno',getVal('d')+' mm'],['Rugosidade absoluta',getVal('e')+' mm'],['Massa específica',getVal('rho')+' kg/m³'],['Viscosidade dinâmica',getVal('mu')+' mPa·s'],['Coeficiente K utilizado',getVal('k')],['Material da tubulação',$('material').selectedOptions[0].textContent]];
-  const names={elbow:'Curvas 90°',elbow45:'Curvas 45°',footValve:'Válvulas de pé com crivo',ballValve:'Válvulas esfera',strainer:'Filtros / crivos',tee:'Tês em passagem',gate:'Válvulas gaveta',globe:'Válvulas globo',checkValve:'Válvulas de retenção'};
-  const acc=Object.entries(names).map(([id,name])=>[name,getVal(id)]);
+  const acc=accessoryItems.length?accessoryItems.map(x=>[x.name+' — '+(x.diameter||'DN não informado')+' — '+x.location, 'Qtd '+x.qty+' · K unit. '+fmt(x.k)+' · K total '+fmt(x.qty*x.k)]).concat([['K total dos acessórios',fmt(accessoryTotal())]]):[['Acessórios','Nenhum acessório adicionado']];
   const pumpRows=[['Tipo',pump.pumpType],['Fabricante',pump.manufacturer],['Modelo',pump.pumpModel],['Fluido',pump.fluid],['Vazão nominal',pump.pumpFlow+' m³/h'],['Altura nominal',pump.pumpHead+' mca'],['Rotação',pump.rpm+' rpm'],['Potência no eixo',pump.power?pump.power+' kW':'Não informada'],['Diâmetro do rotor',pump.impeller?pump.impeller+' mm':'Não informado']];
   let results=last?[['Data do cálculo',last.date],['Velocidade',fmt(last.v)+' m/s'],['Reynolds',fmt(last.Re)],['Regime',last.regime],['Fator de atrito',fmt(last.f)],['Perda distribuída',fmt(last.major)+' mca'],['Perda localizada',fmt(last.minor)+' mca'],['Perda total',fmt(last.total)+' mca'],['Pressão diferencial',fmt(last.dp)+' bar']]:[['Situação','Nenhum cálculo executado nesta sessão']];
   let pumpAnalysis=pumpResult?[['Potência hidráulica',fmt(pumpResult.hydraulic)+' kW'],['Rendimento estimado',pumpResult.eta===null?'Não calculável sem potência no eixo':fmt(pumpResult.eta)+' %'],['Altura requerida',pumpResult.required===null?'Não calculada':fmt(pumpResult.required)+' mca']]:[['Situação','Análise de bomba não executada nesta sessão']];
