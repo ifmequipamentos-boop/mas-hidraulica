@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10243b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAS Hidráulica">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>MAS Engenharia Hidráulica</title>
+<style>
+:root{--navy:#10243b;--blue:#1769aa;--cyan:#20a4c7;--bg:#f2f5f8;--ink:#172638;--muted:#667789;--line:#dce4ec;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+header{background:linear-gradient(120deg,#10243b,#1769aa);color:white;padding:24px 20px 22px;border-radius:0 0 22px 22px}
+.brand{font-size:29px;font-weight:850;letter-spacing:1px}.subtitle{font-size:11px;letter-spacing:2px;opacity:.85;margin-top:2px}.tagline{margin-top:18px;font-size:15px}
+main{max-width:760px;margin:auto;padding:16px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 3px 12px #16324b0a}
+h2{font-size:17px;margin:0 0 13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:12px;color:var(--muted);font-weight:650;margin-bottom:5px}
+input{width:100%;border:1px solid #cbd6e0;border-radius:10px;padding:12px;font-size:16px;background:#fff;color:var(--ink);outline:none}
+input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #1769aa18}
+.field{min-width:0}.unit{font-size:11px;color:var(--muted);margin-top:4px}
+button{border:0;border-radius:12px;padding:14px 16px;font-weight:750;font-size:15px;cursor:pointer}
+.primary{background:var(--blue);color:white;width:100%;margin-top:14px}
+.secondary{background:#eaf2f8;color:var(--blue)}
+.results{display:none}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric{background:#f3f7fa;border-radius:12px;padding:12px}.metric strong{display:block;font-size:19px;margin-top:5px;overflow-wrap:anywhere}.metric span{font-size:11px;color:var(--muted)}
+.metric.highlight{background:#e7f2fb;border:1px solid #c6e0f4}
+.error{display:none;color:#a32626;background:#fff0f0;border-radius:10px;padding:11px;margin-top:12px;font-size:13px}
+.note{font-size:12px;color:var(--muted);line-height:1.5}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:8px 20px 28px}
+@media(max-width:430px){.grid{grid-template-columns:1fr 1fr}main{padding:12px}.card{padding:14px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">MAS</div>
+  <div class="subtitle">ENGENHARIA HIDRÁULICA</div>
+  <div class="tagline">Ferramentas de cálculo para projetos hidráulicos</div>
+</header>
+<main>
+  <section class="card">
+    <h2>Perda de carga — Darcy-Weisbach</h2>
+    <div class="grid">
+      <div class="field"><label for="q">Vazão</label><input id="q" inputmode="decimal" value="10"><div class="unit">m³/h</div></div>
+      <div class="field"><label for="l">Comprimento reto</label><input id="l" inputmode="decimal" value="100"><div class="unit">m</div></div>
+      <div class="field"><label for="d">Diâmetro interno</label><input id="d" inputmode="decimal" value="50"><div class="unit">mm</div></div>
+      <div class="field"><label for="e">Rugosidade absoluta</label><input id="e" inputmode="decimal" value="0.045"><div class="unit">mm</div></div>
+      <div class="field"><label for="rho">Massa específica</label><input id="rho" inputmode="decimal" value="998"><div class="unit">kg/m³</div></div>
+      <div class="field"><label for="mu">Viscosidade dinâmica</label><input id="mu" inputmode="decimal" value="1.0"><div class="unit">mPa·s (cP)</div></div>
+      <div class="field"><label for="k">Soma dos coeficientes K</label><input id="k" inputmode="decimal" value="2.0"><div class="unit">Adimensional</div></div>
+    </div>
+    <button class="primary" id="calc">Calcular perda de carga</button>
+    <div class="error" id="error"></div>
+  </section>
+  <section class="card results" id="results">
+    <h2>Resultados calculados</h2>
+    <div class="result-grid" id="metrics"></div>
+    <button class="secondary" id="save" style="width:100%;margin-top:12px">Salvar cálculo neste aparelho</button>
+    <p class="note" id="saved"></p>
+  </section>
+  <section class="card">
+    <h2>Histórico local</h2>
+    <div id="history" class="note">Nenhum cálculo salvo ainda.</div>
+    <button class="secondary" id="clearHistory" style="margin-top:10px">Apagar histórico</button>
+  </section>
+  <section class="card">
+    <h2>Sobre o cálculo</h2>
+    <p class="note">Perda distribuída por Darcy-Weisbach. Regime laminar: f = 64/Re. Regime turbulento: aproximação de Swamee–Jain. As perdas localizadas são calculadas pela soma dos coeficientes K informados.</p>
+    <p class="note"><b>Atenção:</b> a faixa de transição do escoamento (Re entre 2.300 e 4.000) é aproximada. Confirme propriedades do fluido, diâmetro real e dados de fabricantes antes de usar o resultado em um projeto executivo.</p>
+  </section>
+</main>
+<footer>MAS Engenharia Hidráulica · Protótipo 1.0 · Uso interno</footer>
+<script>
+const $ = id => document.getElementById(id);
+const num = id => Number($(id).value.trim().replace(',','.'));
+const fmt = n => n.toLocaleString('pt-BR',{maximumFractionDigits:4});
+let last = null;
+function calculate(){
+  $('error').style.display='none';
+  const q=num('q'), L=num('l'), Dmm=num('d'), emm=num('e'), rho=num('rho'), muMpas=num('mu'), K=num('k');
+  if(![q,L,Dmm,emm,rho,muMpas,K].every(Number.isFinite)||q<=0||L<0||Dmm<=0||emm<0||rho<=0||muMpas<=0||K<0){
+    $('error').textContent='Confira os valores. Vazão, diâmetro, massa específica e viscosidade devem ser maiores que zero; os demais não podem ser negativos.';
+    $('error').style.display='block';return;
+  }
+  const Q=q/3600, D=Dmm/1000, eps=emm/1000, mu=muMpas/1000;
+  const area=Math.PI*D*D/4, v=Q/area, Re=rho*v*D/mu, rr=eps/D;
+  let f, regime;
+  if(Re<2300){f=64/Re;regime='Laminar';}
+  else {
+    const ft=.25/Math.pow(Math.log10(rr/3.7+5.74/Math.pow(Re,.9)),2);
+    if(Re<4000){const blend=(Re-2300)/1700;f=(64/2300)*(1-blend)+ft*blend;regime='Transição (estimativa)';}
+    else {f=ft;regime='Turbulento';}
+  }
+  const vh=v*v/(2*9.80665), major=f*(L/D)*vh, minor=K*vh, total=major+minor, dp=rho*9.80665*total/100000;
+  last={date:new Date().toLocaleString('pt-BR'),q,L,Dmm,emm,rho,muMpas,K,v,Re,f,major,minor,total,dp,regime};
+  const items=[
+    ['Velocidade',fmt(v)+' m/s'],['Reynolds',fmt(Re)],['Fator de atrito Darcy',fmt(f)],
+    ['Perda distribuída',fmt(major)+' mca'],['Perda localizada',fmt(minor)+' mca'],
+    ['Perda total',fmt(total)+' mca','highlight'],['Queda de pressão',fmt(dp)+' bar','highlight'],['Regime',regime]
+  ];
+  $('metrics').innerHTML=items.map(x=>`<div class="metric ${x[2]||''}"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('');
+  $('results').style.display='block';$('saved').textContent='';
+}
+function getHistory(){try{return JSON.parse(localStorage.getItem('mas-hydraulic-history')||'[]')}catch{return []}}
+function renderHistory(){
+ const h=getHistory();
+ $('history').innerHTML=h.length?h.map((x,i)=>`<div style="padding:9px 0;border-bottom:1px solid #e2e8ee"><b>${x.date}</b><br>Q ${fmt(x.q)} m³/h · D ${fmt(x.Dmm)} mm · Perda total <b>${fmt(x.total)} mca</b></div>`).join(''):'Nenhum cálculo salvo ainda.';
+}
+$('calc').addEventListener('click',calculate);
+$('save').addEventListener('click',()=>{if(!last)return;const h=getHistory();h.unshift(last);localStorage.setItem('mas-hydraulic-history',JSON.stringify(h.slice(0,50)));renderHistory();$('saved').textContent='Cálculo salvo neste aparelho.';});
+$('clearHistory').addEventListener('click',()=>{if(confirm('Apagar todo o histórico salvo neste aparelho?')){localStorage.removeItem('mas-hydraulic-history');renderHistory();}});
+renderHistory();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>
