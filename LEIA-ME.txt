@@ -1,0 +1,32 @@
+# MAS Engenharia Hidráulica — PWA para iPhone/iPad
+
+Esta versão é um aplicativo web instalável (PWA), para uso interno, sem precisar de Mac ou Xcode.
+
+## O que já funciona
+- Calculadora Darcy-Weisbach para perda distribuída.
+- Perdas localizadas pela soma dos coeficientes K.
+- Velocidade, Reynolds, fator de atrito, perda total em mca e queda de pressão em bar.
+- Histórico salvo localmente no navegador/aparelho.
+- Layout adaptável a iPhone e iPad.
+- Cache para uso offline depois da primeira abertura online.
+
+## Como publicar gratuitamente
+A forma mais simples é usar GitHub Pages:
+1. Entre em https://github.com e crie uma conta, se ainda não tiver.
+2. Crie um repositório público chamado `mas-hidraulica`.
+3. Envie todos os arquivos desta pasta para a raiz do repositório.
+4. Em Settings > Pages, escolha Deploy from a branch, branch `main`, pasta `/root`, e salve.
+5. Aguarde o endereço publicado pelo GitHub Pages.
+
+## Como instalar no iPhone
+1. Abra o endereço publicado no Safari (não dentro do navegador de outro aplicativo).
+2. Toque em Compartilhar.
+3. Escolha “Adicionar à Tela de Início”.
+4. Confirme em “Adicionar”.
+5. Abra pelo novo ícone MAS Hidráulica. Abra uma vez com internet para o cache offline ser preparado.
+
+## Limitações desta versão
+- Para instalação inicial e atualização, precisa abrir o endereço hospedado em HTTPS.
+- O histórico fica neste navegador/aparelho; não sincroniza com outros dispositivos.
+- Não há ainda geração de PDF, biblioteca de conexões, curvas de bomba ou dimensionamento automático.
+- Antes de uso em projeto executivo, os cálculos devem ser verificados por profissional habilitado.
