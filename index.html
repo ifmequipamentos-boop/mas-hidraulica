@@ -1,119 +1,58 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#10243b">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="MAS Hidráulica">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12304a"><meta name="description" content="MAS Engenharia Hidráulica - cálculos de perda de carga e apoio ao dimensionamento.">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>MAS Engenharia Hidráulica</title>
 <style>
-:root{--navy:#10243b;--blue:#1769aa;--cyan:#20a4c7;--bg:#f2f5f8;--ink:#172638;--muted:#667789;--line:#dce4ec;--white:#fff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
-header{background:linear-gradient(120deg,#10243b,#1769aa);color:white;padding:24px 20px 22px;border-radius:0 0 22px 22px}
-.brand{font-size:29px;font-weight:850;letter-spacing:1px}.subtitle{font-size:11px;letter-spacing:2px;opacity:.85;margin-top:2px}.tagline{margin-top:18px;font-size:15px}
-main{max-width:760px;margin:auto;padding:16px}
-.card{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 3px 12px #16324b0a}
-h2{font-size:17px;margin:0 0 13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-label{display:block;font-size:12px;color:var(--muted);font-weight:650;margin-bottom:5px}
-input{width:100%;border:1px solid #cbd6e0;border-radius:10px;padding:12px;font-size:16px;background:#fff;color:var(--ink);outline:none}
-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #1769aa18}
-.field{min-width:0}.unit{font-size:11px;color:var(--muted);margin-top:4px}
-button{border:0;border-radius:12px;padding:14px 16px;font-weight:750;font-size:15px;cursor:pointer}
-.primary{background:var(--blue);color:white;width:100%;margin-top:14px}
-.secondary{background:#eaf2f8;color:var(--blue)}
-.results{display:none}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.metric{background:#f3f7fa;border-radius:12px;padding:12px}.metric strong{display:block;font-size:19px;margin-top:5px;overflow-wrap:anywhere}.metric span{font-size:11px;color:var(--muted)}
-.metric.highlight{background:#e7f2fb;border:1px solid #c6e0f4}
-.error{display:none;color:#a32626;background:#fff0f0;border-radius:10px;padding:11px;margin-top:12px;font-size:13px}
-.note{font-size:12px;color:var(--muted);line-height:1.5}
-footer{text-align:center;color:var(--muted);font-size:11px;padding:8px 20px 28px}
-@media(max-width:430px){.grid{grid-template-columns:1fr 1fr}main{padding:12px}.card{padding:14px}}
+:root{--navy:#12304a;--blue:#1769aa;--bg:#f2f5f8;--line:#dce4ec;--muted:#627386;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#172635}header{background:linear-gradient(115deg,#102b43,#1769aa);color:white;padding:24px 18px 20px}header h1{margin:0;font-size:27px;letter-spacing:.4px}header p{margin:4px 0 0;font-size:12px;letter-spacing:1.5px;opacity:.9}.wrap{max-width:900px;margin:auto;padding:14px}.tabs{display:flex;gap:8px;overflow:auto;padding:2px 0 12px}.tab{border:1px solid var(--line);background:white;border-radius:999px;padding:10px 15px;white-space:nowrap;font-weight:650;color:#29445c}.tab.active{background:var(--navy);color:white;border-color:var(--navy)}.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #17324a0a}.panel h2{font-size:18px;margin:0 0 13px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;font-size:12px;color:var(--muted);font-weight:650;margin-bottom:5px}.field input,.field select{width:100%;border:1px solid #cbd6e0;border-radius:10px;padding:12px;font:inherit;background:#fff;color:#172635;min-width:0}.unit{font-size:11px;color:var(--muted);margin-top:3px}.btn{border:0;background:var(--blue);color:white;border-radius:11px;padding:13px 16px;font:inherit;font-weight:700;width:100%;margin-top:12px}.btn.secondary{background:#e9f1f8;color:#174a73}.btn.danger{background:#fff0ef;color:#a22d26;width:auto;padding:8px 11px;margin:0}.result{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric{background:#f2f6fa;border-radius:11px;padding:11px}.metric small{display:block;color:var(--muted);font-size:11px}.metric strong{display:block;font-size:18px;margin-top:3px;overflow-wrap:anywhere}.metric.primary{background:#e7f1fa;border:1px solid #c6dced}.metric.primary strong{color:#12568c}.note{font-size:12px;color:var(--muted);line-height:1.5}.error{color:#a22d26;background:#fff0ef;border-radius:10px;padding:10px;margin-top:10px;font-size:13px}.accessory{display:grid;grid-template-columns:1fr 75px 80px 35px;gap:7px;align-items:center;margin:8px 0}.accessory select,.accessory input{width:100%;min-width:0;padding:9px;border:1px solid #cbd6e0;border-radius:9px;background:white;font:inherit}.accessory .kval{text-align:right;font-size:12px;color:var(--muted)}.accessory-head{display:grid;grid-template-columns:1fr 75px 80px 35px;gap:7px;font-size:11px;color:var(--muted)}.hidden{display:none!important}.actions{display:flex;gap:8px}.actions .btn{flex:1}.footer{text-align:center;color:#718092;font-size:11px;padding:12px}@media(max-width:560px){.grid{grid-template-columns:1fr 1fr}.accessory{grid-template-columns:minmax(0,1fr) 58px 62px 30px;gap:5px}.accessory select,.accessory input{font-size:12px;padding:8px}.metric strong{font-size:16px}}@media print{header,.tabs,.btn,.footer{display:none!important}body{background:white}.panel{box-shadow:none;break-inside:avoid}.wrap{max-width:none}}
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">MAS</div>
-  <div class="subtitle">ENGENHARIA HIDRÁULICA</div>
-  <div class="tagline">Ferramentas de cálculo para projetos hidráulicos</div>
-</header>
-<main>
-  <section class="card">
-    <h2>Perda de carga — Darcy-Weisbach</h2>
-    <div class="grid">
-      <div class="field"><label for="q">Vazão</label><input id="q" inputmode="decimal" value="10"><div class="unit">m³/h</div></div>
-      <div class="field"><label for="l">Comprimento reto</label><input id="l" inputmode="decimal" value="100"><div class="unit">m</div></div>
-      <div class="field"><label for="d">Diâmetro interno</label><input id="d" inputmode="decimal" value="50"><div class="unit">mm</div></div>
-      <div class="field"><label for="e">Rugosidade absoluta</label><input id="e" inputmode="decimal" value="0.045"><div class="unit">mm</div></div>
-      <div class="field"><label for="rho">Massa específica</label><input id="rho" inputmode="decimal" value="998"><div class="unit">kg/m³</div></div>
-      <div class="field"><label for="mu">Viscosidade dinâmica</label><input id="mu" inputmode="decimal" value="1.0"><div class="unit">mPa·s (cP)</div></div>
-      <div class="field"><label for="k">Soma dos coeficientes K</label><input id="k" inputmode="decimal" value="2.0"><div class="unit">Adimensional</div></div>
-    </div>
-    <button class="primary" id="calc">Calcular perda de carga</button>
-    <div class="error" id="error"></div>
-  </section>
-  <section class="card results" id="results">
-    <h2>Resultados calculados</h2>
-    <div class="result-grid" id="metrics"></div>
-    <button class="secondary" id="save" style="width:100%;margin-top:12px">Salvar cálculo neste aparelho</button>
-    <p class="note" id="saved"></p>
-  </section>
-  <section class="card">
-    <h2>Histórico local</h2>
-    <div id="history" class="note">Nenhum cálculo salvo ainda.</div>
-    <button class="secondary" id="clearHistory" style="margin-top:10px">Apagar histórico</button>
-  </section>
-  <section class="card">
-    <h2>Sobre o cálculo</h2>
-    <p class="note">Perda distribuída por Darcy-Weisbach. Regime laminar: f = 64/Re. Regime turbulento: aproximação de Swamee–Jain. As perdas localizadas são calculadas pela soma dos coeficientes K informados.</p>
-    <p class="note"><b>Atenção:</b> a faixa de transição do escoamento (Re entre 2.300 e 4.000) é aproximada. Confirme propriedades do fluido, diâmetro real e dados de fabricantes antes de usar o resultado em um projeto executivo.</p>
-  </section>
+<header><div class="wrap"><h1>MAS</h1><p>ENGENHARIA HIDRÁULICA</p><div style="margin-top:14px;font-size:15px">Cálculos e dimensionamento hidráulico</div></div></header>
+<main class="wrap">
+<nav class="tabs" aria-label="Módulos"><button class="tab active" data-tab="loss">Perda de carga</button><button class="tab" data-tab="pump">Bombas</button><button class="tab" data-tab="project">Projeto</button></nav>
+<section id="loss" class="tabpage">
+<div class="panel"><h2>Dados da tubulação</h2><div class="grid">
+<div class="field"><label for="flow">Vazão</label><input id="flow" type="text" inputmode="decimal" value="10"><div class="unit">m³/h</div></div>
+<div class="field"><label for="length">Comprimento reto</label><input id="length" type="text" inputmode="decimal" value="100"><div class="unit">m</div></div>
+<div class="field"><label for="diameter">Diâmetro interno</label><input id="diameter" type="text" inputmode="decimal" value="50"><div class="unit">mm</div></div>
+<div class="field"><label for="roughness">Rugosidade absoluta</label><input id="roughness" type="text" inputmode="decimal" value="0.045"><div class="unit">mm</div></div>
+</div></div>
+<div class="panel"><h2>Propriedades do fluido</h2><div class="grid">
+<div class="field"><label for="density">Massa específica</label><input id="density" type="text" inputmode="decimal" value="998"><div class="unit">kg/m³</div></div>
+<div class="field"><label for="viscosity">Viscosidade dinâmica</label><input id="viscosity" type="text" inputmode="decimal" value="1.0"><div class="unit">mPa·s (cP)</div></div>
+</div></div>
+<div class="panel"><h2>Acessórios e perdas localizadas</h2><p class="note">Selecione os acessórios, informe a quantidade e ajuste o K conforme o fabricante ou referência técnica adotada. Os valores iniciais são estimativas e devem ser confirmados.</p>
+<div class="accessory-head"><span>Acessório</span><span>Qtd.</span><span>K unit.</span><span></span></div><div id="accessories"></div><button id="addAccessory" class="btn secondary" type="button">＋ Adicionar acessório</button>
+<div class="field" style="margin-top:12px"><label for="extraK">K adicional (opcional)</label><input id="extraK" type="text" inputmode="decimal" value="0"><div class="unit">Coeficiente K somado manualmente</div></div>
+</div>
+<div class="panel"><h2>Resultado do cálculo</h2><button id="calculate" class="btn">Calcular perda de carga</button><div id="error" class="error hidden"></div><div id="results" class="hidden" style="margin-top:14px"><div class="result" id="metrics"></div><p class="note" id="method" style="margin-top:12px"></p><div class="actions"><button class="btn secondary" id="print" type="button">Imprimir / salvar PDF</button><button class="btn secondary" id="clear" type="button">Limpar resultados</button></div></div></div>
+</section>
+<section id="pump" class="tabpage hidden"><div class="panel"><h2>Cadastro e pré-análise de bomba</h2><p class="note">Módulo inicial para registrar os dados de operação e estimar potência. A seleção definitiva depende da curva do fabricante e da análise do sistema.</p><div class="grid">
+<div class="field"><label for="pumpType">Tipo</label><select id="pumpType"><option>Centrífuga horizontal</option><option>Centrífuga vertical</option><option>Deslocamento positivo</option><option>Outro</option></select></div>
+<div class="field"><label for="pumpMaker">Fabricante</label><input id="pumpMaker" value="Outro"></div>
+<div class="field"><label for="pumpModel">Modelo</label><input id="pumpModel" value="A definir"></div>
+<div class="field"><label for="pumpFluid">Fluido</label><input id="pumpFluid" value="Água"></div>
+<div class="field"><label for="pumpFlow">Vazão</label><input id="pumpFlow" inputmode="decimal" value="20"><div class="unit">m³/h</div></div>
+<div class="field"><label for="pumpHead">Altura manométrica</label><input id="pumpHead" inputmode="decimal" value="35"><div class="unit">mca</div></div>
+<div class="field"><label for="pumpEff">Rendimento estimado</label><input id="pumpEff" inputmode="decimal" value="65"><div class="unit">%</div></div>
+<div class="field"><label for="pumpRpm">Rotação</label><input id="pumpRpm" inputmode="decimal" value="1750"><div class="unit">rpm</div></div>
+</div><button id="pumpCalc" class="btn">Calcular potência estimada</button><div id="pumpError" class="error hidden"></div><div id="pumpResult" class="hidden" style="margin-top:14px"><div class="result" id="pumpMetrics"></div><p class="note">Potência hidráulica calculada por ρ·g·Q·H. Potência estimada no eixo = potência hidráulica / rendimento informado. Não substitui a curva e os dados oficiais do fabricante.</p></div></div></section>
+<section id="project" class="tabpage hidden"><div class="panel"><h2>Identificação do projeto</h2><div class="field"><label for="projectName">Nome do projeto / cliente</label><input id="projectName" placeholder="Ex.: Sistema de bombeamento - Cliente A"></div><p class="note">Nesta primeira versão, os dados ficam no próprio navegador. O salvamento de projetos e sincronização entre dispositivos será implementado em etapa posterior.</p><button class="btn secondary" id="saveLocal">Salvar dados desta sessão no aparelho</button><div id="savedMsg" class="note" style="margin-top:8px"></div></div></section>
+<div class="footer">MAS Engenharia Hidráulica · Protótipo em evolução · Verifique os dados e critérios de engenharia antes de especificar equipamentos.</div>
 </main>
-<footer>MAS Engenharia Hidráulica · Protótipo 1.0 · Uso interno</footer>
 <script>
-const $ = id => document.getElementById(id);
-const num = id => Number($(id).value.trim().replace(',','.'));
-const fmt = n => n.toLocaleString('pt-BR',{maximumFractionDigits:4});
-let last = null;
-function calculate(){
-  $('error').style.display='none';
-  const q=num('q'), L=num('l'), Dmm=num('d'), emm=num('e'), rho=num('rho'), muMpas=num('mu'), K=num('k');
-  if(![q,L,Dmm,emm,rho,muMpas,K].every(Number.isFinite)||q<=0||L<0||Dmm<=0||emm<0||rho<=0||muMpas<=0||K<0){
-    $('error').textContent='Confira os valores. Vazão, diâmetro, massa específica e viscosidade devem ser maiores que zero; os demais não podem ser negativos.';
-    $('error').style.display='block';return;
-  }
-  const Q=q/3600, D=Dmm/1000, eps=emm/1000, mu=muMpas/1000;
-  const area=Math.PI*D*D/4, v=Q/area, Re=rho*v*D/mu, rr=eps/D;
-  let f, regime;
-  if(Re<2300){f=64/Re;regime='Laminar';}
-  else {
-    const ft=.25/Math.pow(Math.log10(rr/3.7+5.74/Math.pow(Re,.9)),2);
-    if(Re<4000){const blend=(Re-2300)/1700;f=(64/2300)*(1-blend)+ft*blend;regime='Transição (estimativa)';}
-    else {f=ft;regime='Turbulento';}
-  }
-  const vh=v*v/(2*9.80665), major=f*(L/D)*vh, minor=K*vh, total=major+minor, dp=rho*9.80665*total/100000;
-  last={date:new Date().toLocaleString('pt-BR'),q,L,Dmm,emm,rho,muMpas,K,v,Re,f,major,minor,total,dp,regime};
-  const items=[
-    ['Velocidade',fmt(v)+' m/s'],['Reynolds',fmt(Re)],['Fator de atrito Darcy',fmt(f)],
-    ['Perda distribuída',fmt(major)+' mca'],['Perda localizada',fmt(minor)+' mca'],
-    ['Perda total',fmt(total)+' mca','highlight'],['Queda de pressão',fmt(dp)+' bar','highlight'],['Regime',regime]
-  ];
-  $('metrics').innerHTML=items.map(x=>`<div class="metric ${x[2]||''}"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('');
-  $('results').style.display='block';$('saved').textContent='';
-}
-function getHistory(){try{return JSON.parse(localStorage.getItem('mas-hydraulic-history')||'[]')}catch{return []}}
-function renderHistory(){
- const h=getHistory();
- $('history').innerHTML=h.length?h.map((x,i)=>`<div style="padding:9px 0;border-bottom:1px solid #e2e8ee"><b>${x.date}</b><br>Q ${fmt(x.q)} m³/h · D ${fmt(x.Dmm)} mm · Perda total <b>${fmt(x.total)} mca</b></div>`).join(''):'Nenhum cálculo salvo ainda.';
-}
-$('calc').addEventListener('click',calculate);
-$('save').addEventListener('click',()=>{if(!last)return;const h=getHistory();h.unshift(last);localStorage.setItem('mas-hydraulic-history',JSON.stringify(h.slice(0,50)));renderHistory();$('saved').textContent='Cálculo salvo neste aparelho.';});
-$('clearHistory').addEventListener('click',()=>{if(confirm('Apagar todo o histórico salvo neste aparelho?')){localStorage.removeItem('mas-hydraulic-history');renderHistory();}});
-renderHistory();
-if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
-</script>
-</body>
-</html>
+const $=id=>document.getElementById(id);const parse=id=>{const s=$(id).value.trim().replace(/\s/g,'').replace(',','.');if(!s)return NaN;return Number(s)};const fmt=(n,d=3)=>Number(n).toLocaleString('pt-BR',{maximumFractionDigits:d,minimumFractionDigits:Math.min(2,d)});
+const fittings=[['Curva 90° raio longo',0.2],['Curva 90° raio curto',0.35],['Curva 45°',0.2],['Tê - passagem reta',0.6],['Tê - derivação',1.8],['Válvula gaveta aberta',0.15],['Válvula globo aberta',10],['Válvula esfera aberta',0.05],['Válvula borboleta aberta',0.7],['Válvula retenção',2],['Entrada de tubulação',0.5],['Saída de tubulação',1],['Redução gradual',0.2],['Ampliação gradual',0.3],['Filtro / equipamento',2],['Personalizado',0]];
+function addAccessory(name=fittings[0][0],qty=1,k=null){const row=document.createElement('div');row.className='accessory';const sel=document.createElement('select');fittings.forEach(([n,v])=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.append(o)});sel.value=name;const q=document.createElement('input');q.type='number';q.min='0';q.step='1';q.value=qty;q.setAttribute('aria-label','Quantidade');const kval=document.createElement('input');kval.type='text';kval.inputMode='decimal';kval.value=k===null?fittings.find(x=>x[0]===name)[1]:k;kval.setAttribute('aria-label','Coeficiente K unitário');const del=document.createElement('button');del.className='btn danger';del.type='button';del.textContent='×';del.setAttribute('aria-label','Remover acessório');sel.addEventListener('change',()=>{kval.value=fittings.find(x=>x[0]===sel.value)[1]});del.addEventListener('click',()=>row.remove());row.append(sel,q,kval,del);$('accessories').append(row)}
+addAccessory('Curva 90° raio longo',2);addAccessory('Válvula gaveta aberta',1);
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.tabpage').forEach(p=>p.classList.toggle('hidden',p.id!==b.dataset.tab))}));$('addAccessory').onclick=()=>addAccessory();
+function showError(el,msg){el.textContent=msg;el.classList.remove('hidden')}function hideError(el){el.classList.add('hidden');el.textContent=''}
+$('calculate').onclick=()=>{hideError($('error'));const Q=parse('flow'),L=parse('length'),D=parse('diameter'),eps=parse('roughness'),rho=parse('density'),mu0=parse('viscosity'),extra=parse('extraK');if(![Q,L,D,eps,rho,mu0,extra].every(Number.isFinite)||Q<=0||L<0||D<=0||eps<0||rho<=0||mu0<=0||extra<0){$('results').classList.add('hidden');showError($('error'),'Confira os campos: vazão, diâmetro, massa específica e viscosidade devem ser maiores que zero; comprimento, rugosidade e K adicional não podem ser negativos.');return}let K=extra;for(const r of $('accessories').children){const inputs=r.querySelectorAll('input');const qty=Number(inputs[0].value),k=Number(inputs[1].value.replace(',','.'));if(!Number.isFinite(qty)||!Number.isFinite(k)||qty<0||k<0){showError($('error'),'Verifique quantidade e K dos acessórios.');return}K+=qty*k}const q=Q/3600,d=D/1000,e=eps/1000,mu=mu0/1000,A=Math.PI*d*d/4,v=q/A,Re=rho*v*d/mu,rr=e/d;let f;if(Re<2300)f=64/Re;else{const sj=0.25/Math.pow(Math.log10(rr/3.7+5.74/Math.pow(Re,0.9)),2);if(Re<4000){const fl=64/2300;f=fl*(1-(Re-2300)/1700)+sj*((Re-2300)/1700)}else f=sj}const vh=v*v/(2*9.80665),major=f*(L/d)*vh,minor=K*vh,total=major+minor,dp=rho*9.80665*total/100000;const items=[['Velocidade',fmt(v)+' m/s'],['Reynolds',fmt(Re,0)],['Fator de atrito Darcy',fmt(f,5)],['K total',fmt(K,3)],['Perda distribuída',fmt(major)+' mca'],['Perda localizada',fmt(minor)+' mca'],['Perda total',fmt(total)+' mca'],['Queda de pressão',fmt(dp,4)+' bar']];$('metrics').innerHTML=items.map((x,i)=>`<div class="metric ${i>=6?'primary':''}"><small>${x[0]}</small><strong>${x[1]}</strong></div>`).join('');$('method').textContent='Método Darcy-Weisbach. Fator de atrito: '+(Re<2300?'64/Re (laminar)':Re<4000?'interpolação aproximada na transição (2300–4000)':'Swamee–Jain (turbulento)')+'. K total = soma das quantidades × K unitário + K adicional. Os K são referências iniciais e variam com geometria, abertura, Reynolds e fabricante.';$('results').classList.remove('hidden')};
+$('print').onclick=()=>window.print();$('clear').onclick=()=>{$('results').classList.add('hidden');hideError($('error'))};
+$('pumpCalc').onclick=()=>{hideError($('pumpError'));const q=parse('pumpFlow'),h=parse('pumpHead'),eta=parse('pumpEff'),rpm=parse('pumpRpm');if(![q,h,eta,rpm].every(Number.isFinite)||q<=0||h<0||eta<=0||eta>100||rpm<=0){$('pumpResult').classList.add('hidden');showError($('pumpError'),'Informe vazão e rotação maiores que zero, altura não negativa e rendimento entre 0 e 100%.');return}const rho=998,g=9.80665,Q=q/3600,ph=rho*g*Q*h/1000,shaft=ph/(eta/100);$('pumpMetrics').innerHTML=[['Potência hidráulica',fmt(ph,3)+' kW'],['Potência estimada no eixo',fmt(shaft,3)+' kW'],['Rotação informada',fmt(rpm,0)+' rpm'],['Rendimento',fmt(eta,1)+' %']].map(x=>`<div class="metric primary"><small>${x[0]}</small><strong>${x[1]}</strong></div>`).join('');$('pumpResult').classList.remove('hidden')};
+$('saveLocal').onclick=()=>{const data={project:$('projectName').value,flow:$('flow').value,length:$('length').value,diameter:$('diameter').value,roughness:$('roughness').value,density:$('density').value,viscosity:$('viscosity').value,extraK:$('extraK').value};try{localStorage.setItem('masHydraulicDraft',JSON.stringify(data));$('savedMsg').textContent='Dados básicos desta sessão salvos neste navegador.'}catch(e){$('savedMsg').textContent='Não foi possível salvar neste navegador.'}};
+if('serviceWorker'in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+</script></body></html>
